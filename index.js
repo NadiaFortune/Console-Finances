@@ -90,66 +90,56 @@ var finances = [
 
 let length = finances.length
 let sum = 0
-
+let totalChange = 0
 
 
 console.log("Financial Analysis")
 console.log("------------------")
 
+// The total number of months included in the dataset.
 console.log("Total Months: " +length)
 
-// finances.forEach(function(number) {
-//   sum += number;
-// });
+// The net total amount of Profit/Losses over the entire period.
+sum = finances.reduce((accumulator, value) => {
+  return accumulator + value[1];
+}, 0);
 
-// console.log("Total: $" + sum)
+console.log("Total: "+sum)
 
-// const onlyNumbers = finances.filter(
-//   element => typeof element === 'number'
-// )
-
-// console.log(onlyNumbers)
-
-// const validNumbers = finances.filter(Number);
-
-// console.log(validNumbers);
-
-// const validNumbers = finances.filter;
-
-// console.log(validNumbers);
-
-// const toNumbers = validNumbers.map(Number);
-// console.log(toNumbers); 
-
-// const validNumbers = finances.filter(Number.isInteger);
-
-// console.log(validNumbers);
-
-// arrayofElements.map((Element) => {
-//   return {Number} => subElement ===1
-// })
-
-// finances.filter(function(arr) {
-//   return arr[1] === value
-// })
-
-// console.log(value)
-
-
-// var filteredNumbers = finances.filter(function(number) {
-//   return number > 1
-// }) ;
-
-// console.log(filteredNumbers);
-
-// finances.map(function(subarray) {
-//   return integer
-// })
-
-// console.log()
-
-// let newArr = finances.map(([1])  {
-//     return 
+// The average of the changes in Profit/Losses over the entire period.
+for (let i = 1; i < finances.length; i++) {
+  totalChange += finances[i][1] - finances[i - 1][1];
   
-// })
-// console.log(newArr)
+}
+
+// console.log(totalChange)
+
+let average = (totalChange / (length - 1)).toFixed(2);
+
+console.log("Average Change: " +average)
+
+// The greatest increase in Profit/Losses (date and difference in the amounts) over the entire period.
+// The greatest decrease in losses (date and amount) over the entire period.
+
+var maxIncrease = { date: "", amount: 0 };
+var maxDecrease = { date: "", amount: 0 };
+
+for (var i = 1; i < finances.length; i++) {
+  var diff = finances[i][1] - finances[i - 1][1];
+  if (diff > maxIncrease.amount) {
+    maxIncrease.date = finances[i][0];
+    maxIncrease.amount = diff;
+  }
+}
+
+for (var i = 1; i < finances.length; i++) {
+  var diff = finances[i - 1][1] - finances[i][1];
+  if (diff > maxDecrease.amount) {
+    maxDecrease.date = finances[i][0];
+    maxDecrease.amount = diff;
+  }
+}
+
+console.log("Greatest Increase in Profit/Losses: ", maxIncrease);
+console.log("Greatest Decrease in Profit/Losses: ", maxDecrease);
+// 
